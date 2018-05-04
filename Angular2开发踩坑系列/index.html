@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>Angular2开发踩坑系列-生产环境编译 · Keyon Y</title><meta name="description" content="版权声明：此文首发于我的个人站Angular2开发踩坑系列-生产环境编译，转载请注明出处。  
+
+公司移动端项目需要技术选型，此前仅仅是学过ng2会用而已，于是想趁着这个项目，深入学习一下angular2就提议给CTO。最终选择了angular2作为 前端框架，于是填坑之路 开始了….
+下边说几个在"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="breadCrumb"><a href="/" title="首页">首页</a>><a href="/tags/Angular2/" title="Angular2">Angular2</a>><span>Angular2开发踩坑系列-生产环境编译</span></div><div class="post animated fadeInDown"><div class="post-title"><h1><a>Angular2开发踩坑系列-生产环境编译</a></h1><div class="info"><span>发布于&nbsp;&nbsp;</span><span class="date">2017-08-25</span><i class="icon icon-biaoqian"></i><a href="/tags/Angular2/" title="Angular2" class="tag">Angular2</a><div class="visitorInfo"><i class="icon icon-liulan"></i><span id="Angular2开发踩坑系列-生产环境编译" data-pageNum="undefined" class="leancloud_visitors"></span></div></div></div><div class="post-content"><blockquote>
+<p>版权声明：此文首发于我的个人站<a href="http://xilan.me/Angular2%E5%BC%80%E5%8F%91%E8%B8%A9%E5%9D%91%E7%B3%BB%E5%88%97/">Angular2开发踩坑系列-生产环境编译</a>，转载请注明出处。  </p>
+</blockquote>
+<p>公司移动端项目需要技术选型，此前仅仅是学过ng2会用而已，于是想趁着这个项目，深入学习一下angular2就提议给CTO。最终选择了angular2作为 前端框架，于是填坑之路 开始了….</p>
+<p>下边说几个在生产环境编译的时候遇到的天坑..ToT  </p>
+<p>使用ng build –prod–aot编译出来的文件，部署到服务器之后，在微信内置浏览器和手机谷歌浏览器上可以打开网站，但是<strong>在国内安卓手机的系统内置浏览器以及UC浏览器等打不开，始终停留在loading界面</strong>  </p>
+<p>我曾天真以为手机上没有兼容性问题，可以放肆的’玩耍’，没想到啊没想到，居然有这么一个巨坑。。  </p>
+<p>在我费劲心思百谷找寻原因未果之后，在PC上安装了安卓abd调试工具，下载了UC开发者版本，然后连接电脑，在谷歌浏览器控制台查找原因，终于发现了报了一行错  </p>
+<p><code>TypeError: &#39;undefined&#39; is not a function</code>  </p>
+<p>这是什么鬼？？点开具体报错的位置之后发现，在一行编译后的代码里 <code>object.assign()</code>这个方法报错了，这是一个es6的方法，并且angular-cli配制的转版本无法将<code>object.assign()</code>转成es5版本，所以UC就不支持了。。  </p>
+<p>于是，在寻找解决方法。。此处省略一万字  </p>
+<p>最终在stackoverflow上找到两位大神的回答：  </p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/object.assign%28%29%E8%BD%ACes5.png" alt="object.assign()转es5"><br>根据这两位大神 所述，安装babel-polyfill的npm包后，引入就好了。  </p>
+<p>你以为就这么完了？？  </p>
+<p>我在src目录下polyfills.ts中引入，结果编译完放到服务器上又有了新的报错。。  </p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/zone.js%E6%8A%A5%E9%94%99.png" alt="zone.js报错">  </p>
+<p>还有引入顺序的问题。。新引入的babel-polyfill把Zone.js的Promise方法覆盖掉了，导致编译又出错了。。  </p>
+<p>然后我在polyfills.ts中找到引入 zone.js的地方，将babel-polyfill的引入写在了 这里，  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***************************************************************************************************</span></span><br><span class="line"><span class="comment"> * Zone JS is required by Angular itself.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'babel-polyfill'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'zone.js/dist/zone'</span>;  <span class="comment">// Included with Angular CLI.</span></span><br></pre></td></tr></table></figure>
+<p>总算 这个问题解决了。手机UC浏览器和安卓系统内置浏览器 终于可以正常打开了。  </p>
+<p><strong>BUT</strong>,每次打开超级慢，网络状况良好，但就是<strong>打开的特别慢，在loading界面转十几到二十几秒钟才进来，这次的问题在微信、谷歌、UC、安卓浏览器上无一例外</strong>。  </p>
+<p>又百谷起来。。。此处省略两万字  </p>
+<p>找了好久，原来angular-cli的<code>ng build --prod--aot</code>（这是看着大漠穷秋的ng2视频上学的指令）该指令是不正确的，现在我这样执行的仅仅是</p>
+<p><strong>ng build  </strong>  普通编译</p>
+<p>所以编译后的文件大小 和 源代码的大小几乎一致。应该使用的是<strong>预编译(AOT)</strong>，现在的angular-cli中已经将预编译(AOT)包含在了<code>ng build --prod</code>指令中，那么我应该是用的是ng build –prod指令，没错。  </p>
+<p>于是，我输入<code>ng build --prod</code> 回车，然后，然后就悲剧了。。。  </p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/ngbuild--prod%E6%8A%A5%E9%94%99.png" alt="ngbuild--prod报错"><br>上百条的报错，，我看了一下，报错最多的是：  </p>
+<p><code>Property ‘x’ is private and only accessible within class ‘MyComponent’</code>  </p>
+<p>我在不知道什么网站上找到了解释:  </p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/ngbuild--prod%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3.png" alt="ngbuild--prod报错解决">  </p>
+<p>翻译： 使用AOT，类中的私有属性和方法只能在类中访问。 要访问模板中的属性或方法，属性或方法必须声明为public。  </p>
+<p>使用typescript定义变量时，用到public、private、protect，在不进行预编译(AOT)时，private的变量在html模板中使用是不会报错的，但使用了AOT后，要求的很严格，即使是同一个component中，只要不只是在ts文件中使用，就应该定义为public。  </p>
+<p>SO，我又将所有ts文件中在本文件之外调用的private定义的变量/函数变成了public。<br>然后再次执行 <code>ng build --pord</code>，，又失败了。。  </p>
+<p><code>Property ‘x’ is private and only accessible within class ‘MyComponent’</code><br>上一个报错没有了，还有不少别的报错  </p>
+<p><code>Property &#39;username&#39; does not exist on type &#39;UserInfo&#39;</code>  </p>
+<p>经过再次排查，发现因为typescript是强类型语言，在进行AOT编译时，从后端接口中获取的数据应该有对应的interface与之对应，在开发过程中我们并没有这么做，可以正常运行，但AOT不行。  </p>
+<p>于是又新建了数个接口文件，将这些用到的对象都按照服务器返回的数据格式进行定义interface，随后再引入组件的ts类中。这里请参考微软<a href="https://www.tslang.cn/docs/handbook/interfaces.html" target="_blank" rel="noopener">typescript中文网文档</a>  </p>
+<p>改完之后，再次执行<code>ng build --prod</code>，终于完美编译~~此时的我内牛满面ToT~<br>编译后的文件比源文件少了一半的大小，编译后的js都是压缩过的</p>
+<p>填了三天坑，总算把ng2生产环境编译的坑填平了(暂时的~)</p>
+</div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/express路由模块化/" title="上一篇：express路由模块化" class="page_prev"><i class="icon icon-prev"></i>express路由模块化</a></li><li class="next pagbuttons"><a role="navigation" href="/NodeJS开发个人博客网站/" title="下一篇：NodeJS开发个人博客网站" class="page_next">NodeJS开发个人博客网站<i class="icon icon-next"></i></a></li></ul></div><div id="SOHUCS"></div><script>(function(){ 
+var appid = 'cyt95k857'; 
+var conf = 'prod_5edfd38e4b166d10cd16ee46b351fc3f'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();</script></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>

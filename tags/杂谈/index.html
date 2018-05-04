@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>杂谈 · Keyon Y</title><meta name="description" content="标签：杂谈 - Keyon Y"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="tagsNav"><ul class="tags_ul"><li><a href="/tags/JavaScript" title="JavaScript" class="tag">JavaScript</a></li><li><a href="/tags/NodeJS" title="NodeJS" class="tag">NodeJS</a></li><li><a href="/tags/Webpack" title="Webpack" class="tag">Webpack</a></li><li><a href="/tags/AngularJS" title="AngularJS" class="tag">AngularJS</a></li><li><a href="/tags/Angular2" title="Angular2" class="tag">Angular2</a></li><li><a href="/tags/WebGL" title="WebGL" class="tag">WebGL</a></li></ul></div><div class="autopagerize_page_element"><div class="content"><div class="archive animated fadeInDown"><ul class="list-with-title"><div class="archive"><div class="listing-title">2017</div><ul class="listing"><div class="listing-item"><div class="listing-post"><a href="/小站改版了/" title="小站改版了">小站改版了</a><div class="post-time"><span class="date">06-16</span></div></div></div><div class="listing-item"><div class="listing-post"><a href="/深夜，我的小站终于上线了/" title="深夜，我的小站终于上线了">深夜，我的小站终于上线了</a><div class="post-time"><span class="date">05-05</span></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></ul></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>

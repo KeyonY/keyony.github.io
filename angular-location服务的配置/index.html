@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>angular $location服务的配置 · Keyon Y</title><meta name="description" content="$location服务可以用来分析和修改浏览器URL地址，使用时需要注意的配置：想配置$location服务，需要获得$locationProvider，并配置：html5Mode(true); //开启html5模式如下：
+123.config(['$locationProvider', func"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="breadCrumb"><a href="/" title="首页">首页</a>><a href="/tags/AngularJS/" title="AngularJS">AngularJS</a>><span>angular $location服务的配置</span></div><div class="post animated fadeInDown"><div class="post-title"><h1><a>angular $location服务的配置</a></h1><div class="info"><span>发布于&nbsp;&nbsp;</span><span class="date">2017-05-07</span><i class="icon icon-biaoqian"></i><a href="/tags/AngularJS/" title="AngularJS" class="tag">AngularJS</a><div class="visitorInfo"><i class="icon icon-liulan"></i><span id="angular $location服务的配置" data-pageNum="undefined" class="leancloud_visitors"></span></div></div></div><div class="post-content"><p>$location服务可以用来分析和修改浏览器URL地址，使用时需要注意的配置：<br>想配置$location服务，需要获得$locationProvider，并配置：<br>html5Mode(true); //开启html5模式<br>如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.config([<span class="string">'$locationProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$locationProvider</span>) </span>&#123;  </span><br><span class="line">    $locationProvider.html5Mode(<span class="literal">true</span>); </span><br><span class="line">&#125;])</span><br></pre></td></tr></table></figure>
+<p>有时，在$locationProvider.html5Mode(true)模式下，报这个错$location:nobase，需要在头部添加<code>&lt;base href=&quot;/&quot; /&gt;</code></p>
+</div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/js的-call-和apply-方法的用法及区别/" title="上一篇：js的call()和apply()方法的用法及区别" class="page_prev"><i class="icon icon-prev"></i>js的call()和apply()方法的用法及区别</a></li><li class="next pagbuttons"><a role="navigation" href="/深夜，我的小站终于上线了/" title="下一篇：深夜，我的小站终于上线了" class="page_next">深夜，我的小站终于上线了<i class="icon icon-next"></i></a></li></ul></div><div id="SOHUCS"></div><script>(function(){ 
+var appid = 'cyt95k857'; 
+var conf = 'prod_5edfd38e4b166d10cd16ee46b351fc3f'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();</script></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>

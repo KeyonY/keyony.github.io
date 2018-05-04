@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>express路由模块化 · Keyon Y</title><meta name="description" content="版权声明：此文首发于我的个人站express路由模块化，转载请注明出处。
+
+在node启动文件里（app.js）配制了 路由配制文件的目录：
+123....app.use('/',require(path.join(config.configRoot,'/routes')));....
+然后 exp"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="breadCrumb"><a href="/" title="首页">首页</a>><a href="/tags/NodeJS/" title="NodeJS">NodeJS</a><a href="/tags/Express/" title="Express">Express</a>><span>express路由模块化</span></div><div class="post animated fadeInDown"><div class="post-title"><h1><a>express路由模块化</a></h1><div class="info"><span>发布于&nbsp;&nbsp;</span><span class="date">2017-10-12</span><i class="icon icon-biaoqian"></i><a href="/tags/NodeJS/" title="NodeJS" class="tag">NodeJS</a><a href="/tags/Express/" title="Express" class="tag">Express</a><div class="visitorInfo"><i class="icon icon-liulan"></i><span id="express路由模块化" data-pageNum="undefined" class="leancloud_visitors"></span></div></div></div><div class="post-content"><blockquote>
+<p>版权声明：此文首发于我的个人站<a href="http://xilan.me/express%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%9D%97%E5%8C%96/">express路由模块化</a>，转载请注明出处。</p>
+</blockquote>
+<p>在node启动文件里（app.js）配制了 路由配制文件的目录：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line">app.use(<span class="string">'/'</span>,<span class="built_in">require</span>(path.join(config.configRoot,<span class="string">'/routes'</span>)));</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>然后 express会自动加载’/routes’目录下名为 index.js的文件</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6989900-ef952c9531c3c6fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录.png"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">router.use(<span class="string">'/'</span>, <span class="built_in">require</span>(<span class="string">'./home'</span>));</span><br><span class="line">router.use(<span class="string">'/Detail'</span>, <span class="built_in">require</span>(<span class="string">'./detail'</span>));</span><br><span class="line">router.use(<span class="string">'/Home/List'</span>, <span class="built_in">require</span>(<span class="string">'./list'</span>));</span><br><span class="line">router.use(<span class="string">'/Home/Article'</span>, <span class="built_in">require</span>(<span class="string">'./article'</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+<p>这样，当匹配到对应的一级/一二级  路由地址的时候，就会执行对应的文件中的逻辑代码，<br>在index.js引入其他的各个路由配制文件，比如 在detail.js写上:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// detail.js</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/:date/:id.html'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(<span class="string">'Home/detail'</span>, &#123;</span><br><span class="line">    title: <span class="string">'详情页'</span>,</span><br><span class="line">    date: req.params.date,</span><br><span class="line">    id: req.params.id</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不含'.html'结尾的，重定向到包含'.html'结尾的url</span></span><br><span class="line">router.get(<span class="string">'/:date/:id'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.redirect(<span class="string">'/Detail'</span>+req.path+<span class="string">'.html'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure></p>
+<p>在index中已配置 拦截 ‘/Detail’ 一级路由，此处可省略之，<br>直接写 ‘/:date/:id.html’就可以匹配  ‘/Detail/171011/64asd456ad31.html’这样的url</p>
+<p>然后 开心的玩起来吧~</p>
+</div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/带有参数的decorator-装饰器/" title="上一篇：带有参数的decorator 装饰器" class="page_prev"><i class="icon icon-prev"></i>带有参数的decorator 装饰器</a></li><li class="next pagbuttons"><a role="navigation" href="/Angular2开发踩坑系列/" title="下一篇：Angular2开发踩坑系列-生产环境编译" class="page_next">Angular2开发踩坑系列-生产环境编译<i class="icon icon-next"></i></a></li></ul></div><div id="SOHUCS"></div><script>(function(){ 
+var appid = 'cyt95k857'; 
+var conf = 'prod_5edfd38e4b166d10cd16ee46b351fc3f'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();</script></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>js中的Boolean数据类型转换 · Keyon Y</title><meta name="description" content="昨天修改代码时候，要给一个对象加上一个新的属性，用来判断ng-class里类名的添加和取消。新的属性名字并没有提前声明，直接在方法中写上obj.selected = !obj.selected，直接读取这个属性结果会是undefined，但是在这里执行了取反的操作后就直接变成boolean类型的数据"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="breadCrumb"><a href="/" title="首页">首页</a>><a href="/tags/JavaScript/" title="JavaScript">JavaScript</a>><span>js中的Boolean数据类型转换</span></div><div class="post animated fadeInDown"><div class="post-title"><h1><a>js中的Boolean数据类型转换</a></h1><div class="info"><span>发布于&nbsp;&nbsp;</span><span class="date">2017-05-15</span><i class="icon icon-biaoqian"></i><a href="/tags/JavaScript/" title="JavaScript" class="tag">JavaScript</a><div class="visitorInfo"><i class="icon icon-liulan"></i><span id="js中的Boolean数据类型转换" data-pageNum="undefined" class="leancloud_visitors"></span></div></div></div><div class="post-content"><p>昨天修改代码时候，要给一个对象加上一个新的属性，用来判断ng-class里类名的添加和取消。<br>新的属性名字并没有提前声明，直接在方法中写上obj.selected = !obj.selected，直接读取这个属性结果会是undefined，<br>但是在这里执行了取反的操作后就直接变成boolean类型的数据了，突然觉得js好方便</p>
+<p>然后好奇又进行了下面的尝试<br><img src="http://ormqw9b48.bkt.clouddn.com/865099670865711104.png" alt="img"><br>取反把undefined类型转成了boolean类型</p>
+<h5 id="JS中的Boolean数据类型转换"><a href="#JS中的Boolean数据类型转换" class="headerlink" title="JS中的Boolean数据类型转换"></a>JS中的Boolean数据类型转换</h5><p><strong>! 一个叹号是取反，会首先将值转化为布尔类型  然后再取反</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(!<span class="number">2</span>);    <span class="comment">//false</span></span><br></pre></td></tr></table></figure></p>
+<p>数据类型转换的规则:<br>1)如果只有一个值，判断这个值是真还是假，遵循只有 <strong>0 NaN “”  null  undefined 这5个是假的其余的都是真的</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(!!<span class="string">"KeyonY"</span>);  <span class="comment">//true, !! 将其他的数据类型转换为boolean类型, 相当于 Boolean("KeyonY") </span></span><br><span class="line"></span><br><span class="line">![]    			<span class="comment">//false ,[] 为true(除了0 NaN "" null undefined 都为true) 所以 ![]为false</span></span><br></pre></td></tr></table></figure></p>
+<p>var1 == var2 两个值可能不是用一个数据类型的，如果是==比较的话，会进行默认的数据类型转换<br>2)对象== 对象  永远不相等<br>3)对象== 字符串 先将对象转换为字符串,然后再进行比较<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[]==<span class="string">""</span>   <span class="comment">//true ,[]转化为字符串   </span></span><br><span class="line">		<span class="comment">//[].toString()转化为字符串 ""</span></span><br><span class="line">		<span class="comment">//&#123;&#125;转化为字符串 "[object object]"</span></span><br></pre></td></tr></table></figure></p>
+<p>4)对象==布尔类型 对象先转换为字符串(toString),然后在转化为数字(Number)，布尔类型也转换为数字(true是1，false是0),最后让两个数字比较<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]==<span class="literal">false</span>  <span class="comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>5)对象==数字 对象先转化为字符串(toString)，然后把字符串在转化为数字(Number)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]==<span class="number">1</span>   <span class="comment">//false</span></span><br></pre></td></tr></table></figure></p>
+<p>6)数字==布尔  布尔转化为数字<br>7)数字==字符串 字符串转化为数字<br>8)字符串==布尔  都转化为数字<br>9) null == undefined 结果是true<br>10) null或者undefined 和其他任何的数据类型比较都不相等<br>==是比较  ===也是比较 (绝对比较)</p>
+</div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/小站改版了/" title="上一篇：小站改版了" class="page_prev"><i class="icon icon-prev"></i>小站改版了</a></li><li class="next pagbuttons"><a role="navigation" href="/js的-call-和apply-方法的用法及区别/" title="下一篇：js的call()和apply()方法的用法及区别" class="page_next">js的call()和apply()方法的用法及区别<i class="icon icon-next"></i></a></li></ul></div><div id="SOHUCS"></div><script>(function(){ 
+var appid = 'cyt95k857'; 
+var conf = 'prod_5edfd38e4b166d10cd16ee46b351fc3f'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();</script></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>

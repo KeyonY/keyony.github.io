@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>Node中间层实践（一）——基于NodeJS的全栈式开发 · Keyon Y</title><meta name="description" content="版权声明：此文首发于我的个人站Keyon Y，转载请注明出处。
+
+前言近期公司有个新项目，由于后端人手不足，我果断的提议用node中间层的方案，得到了老大的支持，所以一次大单尝试就来了。Node中间层允许前端来做网站路由、页面渲染、SEO优化，对以往从来不接触这些内容的前端选手来说，正是锻炼我们网站"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+  position: fixed;
+  bottom: 0px;
+  right: 20px !important;
+  z-index: 999;
+  width: 200px;
+  height: 400px;
+  pointer-events: none;
+}</style></head><body><div class="sidebar animated fadeInDown"><div id="particles-js"></div><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/">H5</a></li></div></div><div class="logo-title"><div class="title"><img id="im_first" src="/images/logo@2x.png" style="width:127px;" class="im_first"><h3 class="help-tip"><a href="/about.html">Keyon Y</a><p>About Me</p></h3><i id="hig" onclick="hig()" ondblclick="location.reload(true);" class="high icon icon-high help-tip"><p>high~</p></i><div class="authorInfo"><span>前端工程师</span><br>专注于HTML5，JavaScript，NodeJS等前端技术，关注前沿技术。</div><ul class="contacts"><li class="help-tip"><i class="icon icon-email"></i><p>xilan999@gmail.com</p></li><li class="help-tip"><a href="https://github.com/KeyonY" target="_blank"><i class="icon icon-github"></i></a><p>GitHub</p></li><li class="help-tip"><a href="https://segmentfault.com/u/keyon_y" target="_blank"><i class="icon icon-sf"></i></a><p>SegmentFault</p></li><li class="help-tip"><a href="//shang.qq.com/wpa/qunwpa?idkey=b57130d22a218d71552629c90a96e451c49140279da320e696485771d39ee29a" target="_blank"><i class="icon icon-qqqun"></i></a><p>欢迎进群交流</p></li></ul></div></div><ul class="social-links"></ul><div class="footer"><div class="webinfo">Copyright © 2017 Keyon Y<br><a href="http://www.miitbeian.gov.cn/" target="_blank">豫ICP备17016944号</a></div></div><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script><script src="https://threejs.org/examples/js/libs/stats.min.js"></script><script src="/js/particles.js"></script></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="breadCrumb"><a href="/" title="首页">首页</a>><a href="/tags/NodeJS/" title="NodeJS">NodeJS</a>><span>Node中间层实践（一）——基于NodeJS的全栈式开发</span></div><div class="post animated fadeInDown"><div class="post-title"><h1><a>Node中间层实践（一）——基于NodeJS的全栈式开发</a></h1><div class="info"><span>发布于&nbsp;&nbsp;</span><span class="date">2018-01-03</span><i class="icon icon-biaoqian"></i><a href="/tags/NodeJS/" title="NodeJS" class="tag">NodeJS</a><div class="visitorInfo"><i class="icon icon-liulan"></i><span id="Node中间层实践（一）——基于NodeJS的全栈式开发" data-pageNum="undefined" class="leancloud_visitors"></span></div></div></div><div class="post-content"><blockquote>
+<p>版权声明：此文首发于我的个人站<a href="http://xilan.me/">Keyon Y</a>，转载请注明出处。</p>
+</blockquote>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>近期公司有个新项目，由于后端人手不足，我果断的提议用node中间层的方案，得到了老大的支持，所以一次大单尝试就来了。<br>Node中间层允许前端来做<strong>网站路由</strong>、<strong>页面渲染</strong>、<strong>SEO优化</strong>，对以往从来不接触这些内容的前端选手来说，正是锻炼我们网站架构的好机会。<br>另外，这也是一次深入了解Node的好机会，准备好迎接即将到来的前端工程化时代。</p>
+<h2 id="为什么选择node中间层"><a href="#为什么选择node中间层" class="headerlink" title="为什么选择node中间层"></a><strong>为什么选择node中间层</strong></h2><p>在说这个话题之前，先给大家分享一篇文章(<a href="http://blog.csdn.net/u011413061/article/details/50294263" target="_blank" rel="noopener">【探索】NodeJS中间层搭建</a>)，它让我对node中间层的理解更加深刻，特别是最后的来自淘宝的PPT。</p>
+<h3 id="现有开发模式的适用场景"><a href="#现有开发模式的适用场景" class="headerlink" title="现有开发模式的适用场景"></a><strong>现有开发模式的适用场景</strong></h3><p>玉伯提到的几种开发模式，各有各的适用场景，没有哪一种完全取代另外一种。</p>
+<ul>
+<li>比如后端为主的MVC，做一些同步展现的业务效率很高，但是遇到同步异步结合的页面，与后端开发沟通起来就会比较麻烦。</li>
+<li>Ajax为主SPA型开发模式，比较适合开发APP类型的场景，但是只适合做APP，因为SEO等问题不好解决，对于很多类型的系统，这种开发方式也过重。</li>
+</ul>
+<h3 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a><strong>前后端分离</strong></h3><p>从职责上划分，node中间层实现了前后端分离:</p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%E4%B8%80_3.png" alt=""></p>
+<ul>
+<li>前端：负责View和Controller层</li>
+<li>后端：只负责Model层，业务处理/数据等</li>
+</ul>
+<p>拿我们公司来说，之前的网站前台的项目，是基于后端的MVC，在遇到同步和异步结合的页面时候，和后端频繁沟通，对前后端来说都是很痛苦的。</p>
+<p>对前端来说，发挥的空间十分的有限，例如：性能优化，只在前端做是很有限的，是需要和后端配合才能实现的，比如 随后的部分我会写道的<strong>无刷新加载</strong>。</p>
+<p>前端掌握了Controller，就可以做路由设计、网站目录结构、网站前端架构。<br>掌握了View，就可以通过后端模板引擎(jade/pug,Ejs,swig等)，边写边绑数据。更别提，pug之流 还有mixin，让我们对 html进行函数化，大大提高效率。  </p>
+<p>NodeJS让前端无需学习一门新的语言，就能做到这些事情。</p>
+<h3 id="基于NodeJS“全栈”式开发"><a href="#基于NodeJS“全栈”式开发" class="headerlink" title="基于NodeJS“全栈”式开发"></a><strong>基于NodeJS“全栈”式开发</strong></h3><p>下面的这张图很简单形象的说明了Node中间层</p>
+<p><img src="http://ormqw9b48.bkt.clouddn.com/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%E4%B8%80_1.png" alt=""></p>
+<h3 id="中间层的性能问题"><a href="#中间层的性能问题" class="headerlink" title="中间层的性能问题"></a><strong>中间层的性能问题</strong></h3><p>多加了一层通讯，肯定会有一定的性能损耗。但分层带来的损失，一定能在其他方面的收益弥补回来，而且合理的分层能让职责清晰、方便协作，大大提升开发效率。也可以通过优化通讯方式和协议，尽可能把损耗降到最低。</p>
+<blockquote>
+<p>拿我公司的网站举例：一个静态化的详情页面上有很多(动态)的数据，用户资料、评论信息、订单等等，需要5、6个异步请求，node中间层可以代理这些请求，轻松实现Bigpipe。<br>在PC上你觉得发5,6个异步请求也没什么，但是在无线端，在客户手机上建立一个HTTP请求开销很大，有了这个优化，性能一下提升好几倍。</p>
+</blockquote>
+<h3 id="Node什么都能做，为什么还要JAVA-PHP？"><a href="#Node什么都能做，为什么还要JAVA-PHP？" class="headerlink" title="Node什么都能做，为什么还要JAVA/PHP？"></a><strong>Node什么都能做，为什么还要JAVA/PHP？</strong></h3><p>我们的初衷是做前后端分离，如果考虑这个问题就有点违背我们的初衷了。即使用Node替代Java/PHP，我们也没办法保证不出现今天遇到的种种问题，比如职责不清。我们的目的是分层开发，专业的人，专注做专业的事。基于JAVA/PHP的基础架构已经非常强大而且稳定，而且更适合做现在架构的事情。</p>
+<h3 id="前端的任务更重要了"><a href="#前端的任务更重要了" class="headerlink" title="前端的任务更重要了"></a><strong>前端的任务更重要了</strong></h3><p>常见的前后端分离的开发模式中，后端为前端提供了路由结构和页面的数据绑定，前端只需要切页面和少量的逻辑。</p>
+<p>在node中间层中，前端不仅仅要切页面和做页面逻辑，还要做url design、页面数据绑定、联调与沟通，还要考虑SEO的问题，伪静态页面、title/keyword设置、网站地图，甚至包括错误日志等等。</p>
+<p>虽然前端的工作量增加了不少，但是基于模块化的开发，让总体的效率提升了。<br>对于后端程序员，接口整合的工作交给了前端服务器进行处理，同时和前端耦合度大大降低，工作量和工作效率都减少了。</p>
+<p>另外，由于前后端分离，测试都可以分开来了，专门测试接口的和专门测试ui层。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>我觉得，以后基于NodeJs的全栈式开发的模式将会越来越流行，这也会引领前端步入工程化时代。但是要把Node全栈开发变成一个稳定的、方便的开发工具，还有很多路要走。这次公司的交易平台项目就是一个很好的实践，接下来，请继续关注我对这个项目的总结，希望能给各位带来灵感。</p>
+<p><br><br><br>欢迎继续关注本系列博文的其他精彩文章<br><a href="http://xilan.me/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8ENodeJS%E7%9A%84%E5%85%A8%E6%A0%88%E5%BC%8F%E5%BC%80%E5%8F%91/">Node中间层实践（一）——基于NodeJS的全栈式开发</a><br><a href="http://xilan.me/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%90%AD%E5%BB%BA%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6/">Node中间层实践（二）——搭建项目框架</a><br><a href="http://xilan.me/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94webpack%E9%85%8D%E7%BD%AE/">Node中间层实践（三）——webpack配置</a><br><a href="http://xilan.me/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8Epug/">Node中间层实践（四）——模板引擎pug</a><br><a href="http://xilan.me/Node%E4%B8%AD%E9%97%B4%E5%B1%82%E5%AE%9E%E8%B7%B5%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94express-%E4%B8%AD%E9%97%B4%E5%B1%82%E7%9A%84%E9%80%BB%E8%BE%91%E5%A4%84%E7%90%86/">Node中间层实践（五）——express-中间层的逻辑处理</a></p>
+</div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/Node中间层实践（二）——搭建项目框架/" title="上一篇：Node中间层实践（二）——搭建项目框架" class="page_prev"><i class="icon icon-prev"></i>Node中间层实践（二）——搭建项目框架</a></li><li class="next pagbuttons"><a role="navigation" href="/jq与js中的事件机制与阻止/" title="下一篇：jq与js中的事件机制与阻止" class="page_next">jq与js中的事件机制与阻止<i class="icon icon-next"></i></a></li></ul></div><div id="SOHUCS"></div><script>(function(){ 
+var appid = 'cyt95k857'; 
+var conf = 'prod_5edfd38e4b166d10cd16ee46b351fc3f'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();</script></div></div></div></div><canvas id="live2dcanvas" width="400" height="800" class="live2d"></canvas>
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/koharu.model.json", 0.5);});
+})();
+</script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/crazy.js"></script><script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script><script src="/js/leancloudConfig.js"></script><script src="/js/base.js"></script><script>$(function () {
+    var todo = new leanCloud()._getTime('visitors');
+
+    // tag添加active
+    tags.run();
+});
+//定义hi.css
+var htcss="/css/crazy.css";
+
+//定义歌曲数组
+var CrazyMusic=[
+    "http://oroaawlhl.bkt.clouddn.com/this%20is%20how%20we%20do%20it.mp3"
+];
+
+//监听到ESC或鼠标双击动作，将停止所有效果
+function KeyMonitor() { 
+    if (event.keyCode == 27) {stopCrazy()};
+ } 
+$(document).bind("dblclick",stopCrazy);
+$(document).bind("onkeydown ",KeyMonitor);
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?513c51b8be88ed7f68c124d98de8e738";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script></body></html>
