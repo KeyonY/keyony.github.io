@@ -1,7 +1,10 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Keyon Y"><title>IE下getTime()返回NaN · Keyon Y</title><meta name="description" content="版权声明：此文首发于我的个人站Keyon Y，转载请注明出处。
 
 通过IE开发者工具控制台执行js代码发现，new Date(“2017-11-30 16:13:10”).getTime() 在IE下会返回NaN，而其他浏览器可以正常返回毫秒数。
-原因解析由于毫秒数在IE浏览器下没有正确获得，所以在"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
+原因解析由于毫秒数在IE浏览器下没有正确获得，所以在"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/tips.css"><link rel="stylesheet" href="/css/particles.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+google_ad_client: "ca-pub-5958703030488681",
+enable_page_level_ads: true
+});</script><script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script><style>.live2d{
   position: fixed;
   bottom: 0px;
   right: 20px !important;
